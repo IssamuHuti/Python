@@ -71,3 +71,4 @@ SERÁ INFORMADO TUDO SOBRE O QUE FOR APRENDENDO SOBRE PYTHON
     - se precisar inverter a lista informe após a lista informar [::-1]
 
 9 - 
+

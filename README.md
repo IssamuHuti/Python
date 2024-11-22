@@ -1,6 +1,6 @@
 SERÁ INFORMADO TUDO SOBRE O QUE FOR APRENDENDO SOBRE PYTHON
 
-1 - if <condição>
+1 - if <condição>:
     - Uma função condicional que irá ser executado caso os casos sejam cumpridas 
     - se tiver mais de uma condicional, informar ELIF <condição>
     - Se a condição não for cumprida, a função vai seguir o código sem executar o conteúdo contido na condicional
@@ -14,19 +14,20 @@ SERÁ INFORMADO TUDO SOBRE O QUE FOR APRENDENDO SOBRE PYTHON
         else:
             print("O 'n' é maior que 50")
 
-2 - for i in <tamanho do loop>
+2 - for i in <tamanho do loop>, range():
     - cria uma repetição de eventos que será finalizado assim que repetir a quantidade de vezes informado
     - é possivel fazer o loop ir de forma decrescente
     - se for utilizar a função em um número, seria bom informar por qual número iria começar, e de quantos em quantos números será feita a repetição
 
-        for i in (1, 10, 2)
+        for i in range(1, 10, 2)
+        * range é uma função utilizada para loopings
         * nesse for informa que o loop começará do número 1 até 10 de 2 em 2
         * para fazer ficar decrescente informar no for (10, 1, -2)
     
     - num for aplicado a uma string, ela percorre letra por letra da string, a menos que forneça o Len(string), o que torna ela uma numeral
     - pode ser aplicado em listas e dicionarios
 
-3 - while <condição para parar>
+3 - while <condição para parar>:
     - cria uma repetição que irá parar se cumprir com uma condição
     - quando não se sabe quantas vezes quer que esse loop aconteça, informe 'while True'
     - se precisar interromper o loop, informe break
@@ -70,5 +71,34 @@ SERÁ INFORMADO TUDO SOBRE O QUE FOR APRENDENDO SOBRE PYTHON
             variavel_lista.clear()
     - se precisar inverter a lista informe após a lista informar [::-1]
 
-9 - 
+9 - .isalpha() e .isdigit()
+    - são funções que são ligadas a variáveis utilizadas para verificar se dentro da variável possui somente dígitos ou números
+    - geralmente utilizados como condicionais de if
 
+10 - def nome_funcao (parametro):
+    - cria uma função que vai se tornar repetitivo no programa, otimizando e diminuindo o tamanho do projeto
+    - nos parametros informar uma variavel para ser manipulado dentro da função
+    - exemplo:
+        def soma(x, y):
+            return x + y
+
+        def duplicar(x):
+            return x * 2
+
+        def permissao_str(mensagem): *validação de input de uma string, na mensagem informa o texto para inserção de um a informação
+                                     *a chamada da função acontece dentro de uma variável que chama essa função
+        while True:
+            x = input(mensagem)
+            if x.isalpha(): 
+                return x
+            else:
+                print("Entrada inválida. Informe apenas caracteres.")
+
+11 - .split(parametro)
+    - função que pega um texto e separa ela de acordo com o parametro
+    - resultado dela entra dentro de uma lista
+
+12 - replace(parametro):
+
+
+13 - 

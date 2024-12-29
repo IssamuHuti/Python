@@ -1,6 +1,3 @@
-# nome escola, e caracteristicas
-# listas dos nomes dos alunos, suas notas e suas faltas
-
 import os
 
 def limpar():
@@ -22,8 +19,8 @@ def permissao_str(mensagem):
         else:
             print("Entrada inválida. Informe apenas caracteres.")
     
-escola           = permissao_str('Colégio  : ')
-enderecoEscola   = permissao_str('Endereço : ')
+escola           = input('Colégio  : ')
+enderecoEscola   = input('Endereço : ')
 numeroEndereco   = permissao_int('Número   : ')
 numeroDisciplina = permissao_int('Quantidade de disciplinas: ')
 
@@ -36,7 +33,7 @@ listaDiscp      = []
 
 nDisciplina = 1
 while nDisciplina <= numeroDisciplina:
-    cDisciplina = permissao_str('Disciplina: ')
+    cDisciplina = permissao_str(f'Disciplina {nDisciplina}: ')
     listaDiscp.append(cDisciplina)
     nDisciplina += 1
 
@@ -44,10 +41,11 @@ print()
 
 while True:
     limpar()
-    aluno           = permissao_str('Nome  : ')
-    idade           = permissao_int('Idade : ')
-    serie           = permissao_int('Serie : ')
-    mensalidade     = permissao_int('Mensalidade:')
+    print('Informações do aluno')
+    aluno           = permissao_str('Nome       : ')
+    idade           = permissao_int('Idade      : ')
+    serie           = permissao_int('Serie      : ')
+    mensalidade     = permissao_int('Mensalidade: ')
     reprovado       = False
     qtdReprovado    = 0
     novaMensalidade = 0
@@ -80,19 +78,13 @@ while True:
         mediaFaltas.append(mediaFalta)
     
         if serie == 3:
-            if mediaFalta > 6:
-                reprovado = True
-            if mediaNota < 60:
+            if mediaFalta > 6 or mediaNota < 60:
                 reprovado = True
         elif serie == 4:
-            if mediaFalta > 8:
-                reprovado = True
-            if mediaNota < 60:
+            if mediaFalta > 8 or mediaNota < 60:
                 reprovado = True
         else:
-            if mediaFalta > 8:
-                reprovado = True
-            if mediaNota < 70:
+            if mediaFalta > 8 or mediaNota < 70:
                 reprovado = True
 
         if reprovado == True:
@@ -119,17 +111,19 @@ while True:
             print(d)
     
     print()
-    outroAluno = permissao_str('Deseja cadastrar outro aluno ').upper()
+    outroAluno = permissao_str('Deseja cadastrar outro aluno (S/N): ').upper()
     while outroAluno != 'S' and outroAluno != 'N':
         print('Informe somente "S" ou "N"')
-        outroAluno = permissao_str('Deseja cadastrar outro aluno ').upper()
+        outroAluno = permissao_str('Deseja cadastrar outro aluno (S/N): ').upper()
     if outroAluno == 'N':
+        limpar()
         break
 
 print('Lista dos alunos aprovados!')
 for aluno in listaAprovados:
     print(aluno)
 
+print()
 print('Alunos Reprovados...')
 for aluno in listaReprovados:
     print(aluno)

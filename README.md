@@ -99,6 +99,16 @@ SERÁ INFORMADO TUDO SOBRE O QUE FOR APRENDENDO SOBRE PYTHON
     - resultado dela entra dentro de uma lista
 
 12 - replace(parametro):
+    - substitui uma palavra dentro de um texto por outra
+    - texto.replace('substituida', 'subistituiu')
 
-
-13 - 
+13 - import <nome_do_modulo>
+    - executando o import importa dados de um módulo que está salva nas funcionalidades que já veio instalado no python, ou módulos 
+    importados como selenium e pandas ou de algum módulo programado 
+    - se fizer a importação de todo o módulo, quando for utilizar a informação importada terá de informar o seguinte:
+        * nome do módulo + '.' + a informação desejada
+    - se importar com "from <modulo> import <informação>, não precisaria informar o nome do módulo na chamada da informação importada
+    - fazendo a importação de todo o módulo, se informar "as" depois do módulo e informar uma abreviação, em vez de informar o nome do 
+    modulo toda vez que for chamar a função pode chmar pelo apelido estabelecido
+        * import pandas as pd
+    

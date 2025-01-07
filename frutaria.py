@@ -40,11 +40,11 @@ def preenchimento_data(mensagem):
 
 codigos     = [5500, 7744, 4445, 6565]
 produtos    = ['Amora preta', 'Uva Rubi', 'Pepino', 'Morango']
-precoUnit   = [1.5, 8, 3.99, 15.49]
-descontos   = [12, 11, 2, 6]
-estoques    = [110, 198.5, 445, 200]
+precoUnit   = [round(float(1.5), 2), round(float(8), 2), round(float(3.99), 2), round(float(15.49), 2)]
+descontos   = [round(float(12), 2), round(float(11), 2), round(float(2), 2), round(float(6), 2)]
+estoques    = [round(float(110), 2), round(float(198.5), 2), round(float(445), 2), round(float(200), 2)]
 logins      = ['admin', 'user1', 'user2']
-senhas      = ['1234', '2345', '3456']
+senhas      = [1234, 2345, 3456]
 
 limpar()
 while True:
@@ -77,18 +77,20 @@ while True:
             break
     
     if opcao == 1:
+        limpar()
+        cliente = permissao_str('Digite o nome do cliente: ')
+        credito = permissao_int('Limite de crédito: ')
+        dataPedido = preenchimento_data('Data do pedido: ')
+
         while keyboard.is_pressed('esc') == False:
             numeroPedido += 1
-            cliente = permissao_str('Digite o nome do cliente: ')
-            credito = permissao_int('Limite de crédito: ')
-            dataPedido = preenchimento_data('Data do pedido: ')
             
-            print()
+            limpar()
             print('CODIGOS |   PRODUTOS   | PREÇO UNIT | DESCONTO MAX % | ESTOQUE')
-            print(f'{codigos[0]}   | {produtos[0]} | {precoUnit[0]}       | {descontos[0]}%            | {estoques[0]} ')
-            print(f'{codigos[1]}   | {produtos[1]}    | {precoUnit[1]}       | {descontos[1]}%            | {estoques[1]} ')
-            print(f'{codigos[2]}   | {produtos[2]}      | {precoUnit[2]}       | {descontos[2]}%             | {estoques[2]} ')
-            print(f'{codigos[3]}   | {produtos[3]}     | {precoUnit[3]}      | {descontos[3]}%             | {estoques[3]} ')
+            print(f' {codigos[0]}   | {produtos[0]}  | {round(precoUnit[0], 2)}        |     {descontos[0]} %     | {estoques[0]} ')
+            print(f' {codigos[1]}   | {produtos[1]}     | {round(precoUnit[1], 2)}        |     {descontos[1]} %     | {estoques[1]} ')
+            print(f' {codigos[2]}   | {produtos[2]}       | {round(precoUnit[2], 2)}       |     {descontos[2]} %      | {estoques[2]} ')
+            print(f' {codigos[3]}   | {produtos[3]}      | {round(precoUnit[3], 2)}      |     {descontos[3]} %      | {estoques[3]} ')
             
             print()
             while True:
@@ -100,11 +102,14 @@ while True:
                     continue
             if estoques[codigos.index(cod)] <= 0:
                 print('O produto está sem estoque')
+                input()
                 continue
 
             qtd = permissao_float('Digite a quantidade do produto: ')
             if qtd > estoques[codigos.index(cod)]:
-                qtd == estoques[codigos.index(cod)]
+                estoques[codigos.index(cod)] = 0
+            else:
+                estoques[codigos.index(cod)] = estoques[codigos.index(cod)] - qtd
 
             while True:
                 desc = permissao_int('Digite o percentual de desconto: ')

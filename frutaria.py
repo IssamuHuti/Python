@@ -81,6 +81,7 @@ while True:
         cliente = permissao_str('Digite o nome do cliente: ')
         credito = permissao_int('Limite de crédito: ')
         dataPedido = preenchimento_data('Data do pedido: ')
+        pedidoTotal = 0
 
         while keyboard.is_pressed('esc') == False:
             numeroPedido += 1
@@ -91,6 +92,12 @@ while True:
             print(f' {codigos[1]}   | {produtos[1]}     | {round(precoUnit[1], 2)}        |     {descontos[1]} %     | {estoques[1]} ')
             print(f' {codigos[2]}   | {produtos[2]}       | {round(precoUnit[2], 2)}       |     {descontos[2]} %      | {estoques[2]} ')
             print(f' {codigos[3]}   | {produtos[3]}      | {round(precoUnit[3], 2)}      |     {descontos[3]} %      | {estoques[3]} ')
+            print(f'TOTAL = {round(pedidoTotal, 2)}')
+            if pedidoTotal >= credito:
+                print('Todo limite utilizado!')
+                break
+            else:
+                print(f'Credito a dispor = {round(credito - pedidoTotal, 2)}')
             
             print()
             while True:
@@ -111,6 +118,8 @@ while True:
             else:
                 estoques[codigos.index(cod)] = estoques[codigos.index(cod)] - qtd
 
+            valorBruto = precoUnit[codigos.index(cod)] * qtd
+
             while True:
                 desc = permissao_int('Digite o percentual de desconto: ')
                 if desc > descontos[codigos.index(cod)]:
@@ -118,6 +127,9 @@ while True:
                     continue
                 else:
                     break
+            
+            valorPedido = valorBruto - (valorBruto * desc / 100)
+            pedidoTotal += valorPedido
 
         else:
             print('Pedidos realizados:')

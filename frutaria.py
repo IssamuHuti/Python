@@ -51,6 +51,7 @@ while True:
     tentativa = 0
     numeroPedido = 0
     while tentativa < 3:
+        limpar()
         login     = permissao_str('Login: ')
         senha     = permissao_int('Senha: ')
         tentativa += 1
@@ -119,7 +120,7 @@ while True:
                 estoques[codigos.index(cod)] = estoques[codigos.index(cod)] - qtd
 
             valorBruto = precoUnit[codigos.index(cod)] * qtd
-
+                
             while True:
                 desc = permissao_int('Digite o percentual de desconto: ')
                 if desc > descontos[codigos.index(cod)]:
@@ -127,12 +128,17 @@ while True:
                     continue
                 else:
                     break
-            
-            valorPedido = valorBruto - (valorBruto * desc / 100)
-            pedidoTotal += valorPedido
+
+            if (valorBruto + pedidoTotal - (valorBruto * desc / 100)) > credito:
+                print('Limite de crédito ultrapassado, digite uma quantidade menor ou encerre a operação')
+                input()
+                continue
+            else:
+                valorPedido = valorBruto - (valorBruto * desc / 100)
+                pedidoTotal += valorPedido
 
         else:
-            print('Pedidos realizados:')
+            print(f'Faturamento total do pedido: {pedidoTotal}')
 
     else:
         break

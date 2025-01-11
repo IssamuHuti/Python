@@ -68,7 +68,8 @@ while True:
     else:
         vidas = 4
     
-    while vidas > 0 and palavraChave == palavraSecreta:
+    while vidas > 0:
+        limpar()
         print(f'Palavra Secreta: {palavraSecreta}')
         print(f'Vidas restantes: {vidas}')
         print(f'Letras utilizadas: {letrasTentadas}')
@@ -96,3 +97,68 @@ while True:
                     palavraSecreta += '*'
         else:
             vidas -= 1
+        
+        if palavraChave == palavraSecreta:
+            break
+
+        print()
+        if vidas == 5:
+            print(' O ')
+            print()
+            if dicas == True:
+                print(f'1ª Dica: {dica1}')
+        elif vidas == 4:
+            print(' O ')
+            print(' | ')
+            print()
+            if dicas == True:
+                print(f'1ª Dica: {dica1}')
+                print(f'2ª Dica: {dica2}')
+        elif vidas == 3:
+            print(' O ')
+            print(' | ')
+            print(' | ')
+            print()
+            if dicas == True:
+                print(f'1ª Dica: {dica1}')
+                print(f'2ª Dica: {dica2}')
+                print(f'3ª Dica: {dica3}')
+        elif vidas == 2:
+            print(' O ')
+            print('\|/')
+            print(' | ')
+            print()
+            if dicas == True:
+                print(f'1ª Dica: {dica1}')
+                print(f'2ª Dica: {dica2}')
+                print(f'3ª Dica: {dica3}')
+        elif vidas == 1:
+            print(' O ')
+            print('\|/')
+            print(' | ')
+            print('/ \'')
+            print()
+            if dicas == True:
+                print(f'1ª Dica: {dica1}')
+                print(f'2ª Dica: {dica2}')
+                print(f'3ª Dica: {dica3}')
+    
+    if vidas == 0:
+        print(' O ')
+        print('\|/')
+        print(' | ')
+        print('/ \'')
+        print('o o')
+        print()
+        print('Você perdeu!')
+        input()
+    else:
+        print('Parabens, desafio concluido')
+        input()
+
+    limpar()
+    opcao = permissao_str('Deseja jogar novamente (S/N)? ').upper()
+    if opcao == 'S':
+        continue
+    else:
+        break

@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 def limpar():
     os.system('cls')
@@ -39,6 +39,7 @@ def preenchimento_data(mensagem):
 
 login = 'ADMIN'
 senha = '123mudar'
+dataHoje = date.today()
 
 while True:
     limpar()
@@ -73,6 +74,7 @@ while True:
         tecnico = permissao_str('Tecnico: ')
         descricaoEquip = permissao_str('Descrição do equipamento: ')
         dataCompra = preenchimento_data('Data da compra: ')
+        diferencaData = abs(datetime.strptime(dataCompra, '%d/%m/%Y') - datetime.strptime(dataHoje, '%d/%m/%Y').days)
         limiteCredito = permissao_float('Limite de crédito: ')
         while True:
             entrega = permissao_str('Entrega? (S/N)')
@@ -108,7 +110,11 @@ while True:
                 descProduto = permissao_float('Desconto(%): ')
                 precoProduto = (precoUnit * qtdProduto) - (precoUnit * qtdProduto * descProduto / 100)
                 print(f'Preço total = {precoProduto}')
-                totalGasto += precoProduto
+                if diferencaData <= 730:
+                    totalGasto += 0
+                    print('Coberto pela garantia!')
+                else:
+                    totalGasto += precoProduto                
 
             elif opcaoCliente == 'S':
                 descricaoS = permissao_str('Serviço: ')
@@ -117,7 +123,11 @@ while True:
                 comissao = permissao_float('Comissão(%): ')
                 precoServico = (servicoPreco * descServico / 100) + (servicoPreco * comissao / 100)
                 print(f'Preço total = {precoServico}')
-                totalGasto += precoServico
+                if diferencaData <= 365:
+                    totalGasto += 0
+                    print('Coberto pela garantia!')
+                else:
+                    totalGasto += precoServico
             
             if totalGasto > limiteCredito:
                 print('Limite de credito ultrapassado, chame o supervisor para liberar a ultima compra')
@@ -140,9 +150,57 @@ while True:
             print(f'Total acumulado: {totalGasto}')
             print(f'Limite de gastos: {limiteCredito}')
 
-        print(f'Total da compra: {totalGasto}')
-        print(f'Frete: {totalGasto * entrega / 100}')
-        print(f'Valor total: {totalGasto + (totalGasto * entrega / 100)}')
+        print()
+        while True:
+            limpar()
+            print(f'Total da compra: {totalGasto}')
+            print(f'Frete: {totalGasto * entrega / 100}')
+            print(f'Valor total: {totalGasto + (totalGasto * entrega / 100)}')
+            pagamento = permissao_str('Qual a forma de pagamento? (D) Dinheiro - (C) Cheque - (K) Cartão')
+            if pagamento.upper() != 'D' and pagamento.upper() != 'C' and pagamento.upper() != 'K':
+                print('Informe somente as opções (D) Dinheiro - (C) Cheque - (K) Cartão')
+                pagamento = permissao_str('Qual a forma de pagamento? (D) Dinheiro - (C) Cheque - (K) Cartão')
+            else:
+                break
+        
+        limpar()
+        if totalGasto == 0:
+            print('A garantia está cobrindo toda a operação')
+            print()
+            print('Informe os dados para emissão de nota')
+            while True:
+                cnpj = permissao_int('CNPJ: ')
+                if len(str(cnpj)) != 14:
+                    print('Digite o CNPJ corretamente')
+                else:
+                    break
+            print(f'NFE: {numeroPedido}')
+            print(f'Data de emissão: {dataHoje}')
+        
+        else:
+            print('Informe os dados para emissão de nota')
+            while True:
+                cnpj = permissao_int('CNPJ: ')
+                if len(str(cnpj)) != 14:
+                    print('Digite o CNPJ corretamente')
+                else:
+                    break
+            print(f'NFE: {numeroPedido}')
+            print(f'Data de emissão: {dataHoje}')
+
+        limpar()
+        print(f'NFE: {numeroPedido}')
+        print(f'Data da emissão: {dataHoje}')
+        print(f'Cliente: {cliente}')
+        print(f'CNPJ: {cnpj}')
+        if totalGasto == 0:
+            print('Compra coberta pela garantia')
+        else:
+            print(f'Valor total: {totalGasto}')
+        if opcaoCliente == 'S':
+            print(f'Comissão: {comissao}')
+        if entrega == 'S':
+            print(f'Frete: {totalGasto * entrega / 100}')
 
     else:
         break

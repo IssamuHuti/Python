@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, date
+import keyboard
 
 def limpar():
     os.system('cls')
@@ -94,7 +95,7 @@ while True:
             taxa = 3
 
         totalGasto = 0
-        while totalGasto <= limiteCredito:
+        while totalGasto <= limiteCredito and not keyboard.is_pressed('esc'):
             limpar()
             opcaoCliente = permissao_str('Deseja comprar produto (P) ou contratar serviço (S)')
             if opcaoCliente.upper() != 'P' and opcaoCliente != 'S':

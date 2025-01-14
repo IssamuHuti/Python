@@ -84,7 +84,7 @@ while True:
         dataPedido = preenchimento_data('Data do pedido: ')
         pedidoTotal = 0
 
-        while keyboard.is_pressed('esc') == False:
+        while not keyboard.is_pressed('esc'):
             numeroPedido += 1
             
             limpar()

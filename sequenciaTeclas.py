@@ -13,76 +13,87 @@ def permissao_str(mensagem):
         else:
             print("Entrada inválida. Informe apenas caracteres.")
 
-limpar()
-teclas           = ['Q', 'W', 'E', 'R']
+teclas = ['q', 'w', 'e', 'r']
+desafiantes = {}
 
-sequencia = ''
-while len(sequencia) < 20:
-    teclasAleatorias = random.choice(teclas)
-    if teclasAleatorias == 'Q':
-        print('| Q          |')
-    elif teclasAleatorias == 'W':
-        print('|    W       |')
-    elif teclasAleatorias == 'E':
-        print('|       E    |')
-    elif teclasAleatorias == 'R':
-        print('|          R |')
-    
-    sequencia += teclasAleatorias
-
-print('| Q  W  E  R |')
-
-acertos = 0
 while True:
-    acertou = False
-    for letra in teclas:
-        while True:
-            for key in teclas:
-                if keyboard.is_pressed(key) and key == sequencia[-1]:
-                    if key == letra:
-                        acertou == True
-                else:
-                    break
-            # if sequencia[-1] == 'Q':
-            #     if keyboard.is_pressed('Q'):
-            #         acertou = True
-            #     else:
-            #         break
-            # elif sequencia[-1] == 'W':
-            #     if keyboard.is_pressed('W'):
-            #         acertou = True
-            #     else:
-            #         break
-            # elif sequencia[-1] == 'E':
-            #     if keyboard.is_pressed('E'):
-            #         acertou = True
-            #     else:
-            #         break
-            # elif sequencia[-1] == 'R':
-            #     if keyboard.is_pressed('R'):
-            #         acertou = True
-            #     else:
-            #         break
-        
     limpar()
-    if acertou == True:
-        acertos += 1
+    if len(desafiantes) > 0:
+        print('Ultimas pontuações')
+        for nome, acerto in desafiantes.items():
+            print(f'{nome} - {acerto}')
 
-        teclasAleatorias2 = random.choice(teclas)
-        sequencia == teclasAleatorias2 + sequencia[:18]
-        for i in sequencia:
-            if teclasAleatorias == 'Q':
-                print('| Q          |')
-            elif teclasAleatorias == 'W':
-                print('|    W       |')
-            elif teclasAleatorias == 'E':
-                print('|       E    |')
-            elif teclasAleatorias == 'R':
-                print('|          R |')
+    desafiante = permissao_str('Nome do desafiante: ')
+
+    limpar()
+    print('Pressione qualquer tecla para iniciar o desafio!')
+    inicio = keyboard.read_key()
+
+    sequencia = ''
+    while len(sequencia) < 20:
+        teclasAleatorias = random.choice(teclas).upper()
+        if teclasAleatorias == 'Q':
+            print('| Q          |')
+        elif teclasAleatorias == 'W':
+            print('|    W       |')
+        elif teclasAleatorias == 'E':
+            print('|       E    |')
+        elif teclasAleatorias == 'R':
+            print('|          R |')
         
-        print('| Q  W  E  R |')
-    
-    else:
-        print('Fim de jogo!')
+        sequencia += teclasAleatorias
 
-print(f'Acertos: {acertos}')
+    print('| Q  W  E  R |')
+
+    acertos = 0
+    while True:
+        acertou = False
+
+        tecla = keyboard.read_key()
+
+        if sequencia[-1] == 'Q':
+            if tecla == 'q':
+                acertou = True
+            else:
+                break
+        elif sequencia[-1] == 'W':
+            if tecla == 'w':
+                acertou = True
+            else:
+                break
+        elif sequencia[-1] == 'E':
+            if tecla == 'e':
+                acertou = True
+            else:
+                break
+        elif sequencia[-1] == 'R':
+            if tecla == 'r':
+                acertou = True
+            else:
+                break
+        else:
+            break
+            
+        limpar()
+        if acertou == True:
+            acertos += 1
+
+            teclasAleatorias2 = random.choice(teclas).upper()
+            sequencia = teclasAleatorias2 + sequencia[:18]
+            for i in sequencia:
+                if i == 'Q':
+                    print('| Q          |')
+                elif i == 'W':
+                    print('|    W       |')
+                elif i == 'E':
+                    print('|       E    |')
+                elif i == 'R':
+                    print('|          R |')
+            
+            print('| Q  W  E  R |')
+        
+        else:
+            print('Fim de jogo!')
+
+    print(f'Acertos: {acertos}')
+

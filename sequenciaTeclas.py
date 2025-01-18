@@ -95,5 +95,11 @@ while True:
         else:
             print('Fim de jogo!')
 
+    if len(desafiantes) < 5:
+        max(desafiantes.update({desafiante:acertos}))
+    else:
+        max(desafiantes.update({desafiante:acertos}))
+        desafiantes.pop()
+        
     print(f'Acertos: {acertos}')
 

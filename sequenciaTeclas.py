@@ -23,11 +23,12 @@ while True:
         for nome, acerto in desafiantes.items():
             print(f'{nome} - {acerto}')
 
+    print()
     desafiante = permissao_str('Nome do desafiante: ')
 
     limpar()
     print('Pressione qualquer tecla para iniciar o desafio!')
-    inicio = keyboard.read_key()
+    input()
 
     sequencia = ''
     while len(sequencia) < 20:
@@ -96,10 +97,14 @@ while True:
             print('Fim de jogo!')
 
     if len(desafiantes) < 5:
-        max(desafiantes.update({desafiante:acertos}))
+        desafiantes.update({desafiante:acertos})
     else:
-        max(desafiantes.update({desafiante:acertos}))
-        desafiantes.pop()
+        desafiantes.update({desafiante:acertos})
+        desafiantes.pop(max(desafiantes))
+
+        # primeiroItem = next(iter(desafiantes))
+        # desafiantes.pop(primeiroItem)
+        # desafiantes.update({desafiante:acertos})
         
     print(f'Acertos: {acertos}')
 

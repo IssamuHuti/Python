@@ -35,9 +35,9 @@ class Atributos:
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
         
         if self.profissao == 'tanque':
-            HP = self.HP * 2 * self.tempo
+            HP = self.HP * 2.0 * self.tempo
             ATQ = self.ATQ * 1.2 * self.tempo
-            DEF = self.DEF * 2 * self.tempo
+            DEF = self.DEF * 2.0 * self.tempo
             VEL = self.VEL * 1.2 * self.tempo
             EVA = self.EVA * 1.2 * self.tempo
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
@@ -46,7 +46,7 @@ class Atributos:
             HP = self.HP * 1.2 * self.tempo
             ATQ = self.ATQ * 2.5 * self.tempo
             DEF = self.DEF * 1.1 * self.tempo
-            VEL = self.VEL * 2 * self.tempo
+            VEL = self.VEL * 2.0 * self.tempo
             EVA = self.EVA * 1.5 * self.tempo
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
             
@@ -111,6 +111,14 @@ while True:
         for atributo, valor in p3.atributoDistribuicao().items():
             print(f'{atributo}: {valor}')
         print()
+
+    vidaPropria = 5
+    vidaOponente = 5
+    while (vidaOponente > 0) and (vidaPropria > 0):
+        print(oponente)
+        print()
+        print(campeao)
+        input()
 
     rodada += 1
     input()

@@ -52,6 +52,8 @@ class Atributos:
             
 rodada = 1
 profissao = 'Escolha a profissão:\n1 - Guerreiro\n2 - Tanque\n3 - Arqueiro\n=> '
+vidaPropria = 5
+vidaOponente = 5
 
 while True:
     p1 = Atributos('guerreiro', rodada)
@@ -112,13 +114,34 @@ while True:
             print(f'{atributo}: {valor}')
         print()
 
-    vidaPropria = 5
-    vidaOponente = 5
-    while (vidaOponente > 0) and (vidaPropria > 0):
-        print(oponente)
-        print()
+    while (campeao['HP'] > 0) and (oponente['HP'] > 0):
+        print(f'Vida campeao: {vidaPropria}')
         print(campeao)
+        print()
+        print(f'Vida oponente: {vidaOponente}')
+        print(oponente)
         input()
+
+        danoRecebido = oponente['ATQ'] - campeao['DEF']
+        danoOferecido = campeao['ATQ'] - oponente['DEF']
+
+        campeao['HP'] -= danoRecebido
+        oponente['HP'] -= danoOferecido
+
+        print(f'Vida campeao: {campeao['HP']} - Dano sofrido: {danoRecebido}')
+        print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {danoOferecido}')
+
+        if (campeao['HP'] <= 0) and (oponente['HP'] <= 0):
+            print('Empate')
+        elif oponente['HP'] <= 0:
+            vidaOponente -= 1
+            print('Partida ganha')
+        elif campeao['HP'] <= 0:
+            vidaPropria -= 1
+            print('Partida perdida')
+
+        input()
+        limpar()
 
     rodada += 1
     input()

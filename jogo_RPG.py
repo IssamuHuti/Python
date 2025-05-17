@@ -56,17 +56,22 @@ vidaPropria = 5
 vidaOponente = 5
 
 while True:
+    pular = False
     p1 = Atributos('guerreiro', rodada)
     p2 = Atributos('tanque', rodada)
     p3 = Atributos('arqueiro', rodada)
 
     while True:
         limpar()
-        atributosRodada = int(input(profissao))
-        if atributosRodada in [1, 2, 3]:
-            break
-        else:
-            print('Informe uma opção válida')
+        try:
+            atributosRodada = int(input(profissao))
+            if atributosRodada in [1, 2, 3]:
+                break
+            else:
+                print('Informe uma opção válida')
+                input()
+        except ValueError:
+            print('Digite somente as opções válidas')
             input()
 
     limpar()
@@ -120,7 +125,10 @@ while True:
         print()
         print(f'Vida oponente: {vidaOponente}')
         print(oponente)
-        input()
+        validacaoPular = input()
+
+        if validacaoPular == 'x':
+            pular = True
 
         danoRecebido = oponente['ATQ'] - campeao['DEF']
         danoOferecido = campeao['ATQ'] - oponente['DEF']
@@ -128,20 +136,44 @@ while True:
         campeao['HP'] -= danoRecebido
         oponente['HP'] -= danoOferecido
 
-        print(f'Vida campeao: {campeao['HP']} - Dano sofrido: {danoRecebido}')
-        print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {danoOferecido}')
+        if pular == False:
+            print(f'Vida campeao: {campeao['HP']} - Dano sofrido: {danoRecebido}')
+            print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {danoOferecido}')
 
-        if (campeao['HP'] <= 0) and (oponente['HP'] <= 0):
-            print('Empate')
-        elif oponente['HP'] <= 0:
-            vidaOponente -= 1
-            print('Partida ganha')
-        elif campeao['HP'] <= 0:
-            vidaPropria -= 1
-            print('Partida perdida')
+            if (campeao['HP'] <= 0) and (oponente['HP'] <= 0):
+                print('Empate')
+                break
+            elif (oponente['HP'] <= 0) and (campeao['HP'] > 0):
+                vidaOponente -= 1
+                print('Partida ganha')
+                break
+            elif (campeao['HP'] <= 0) and (oponente['HP'] > 0):
+                vidaPropria -= 1
+                print('Partida perdida')
+                break
 
-        input()
-        limpar()
+            input()
+            limpar()
+
+        elif pular == True:
+            if (campeao['HP'] // (oponente['ATQ'] - campeao['DEF'])) > (oponente['HP'] // (campeao['ATQ'] - oponente['DEF'])):
+                vidaOponente -= 1
+                print('Partida ganha')
+                break
+            elif (campeao['HP'] // (oponente['ATQ'] - campeao['DEF'])) < (oponente['HP'] // (campeao['ATQ'] - oponente['DEF'])):
+                vidaPropria -= 1
+                print('Partida perdida')
+                break
+            else:
+                print('Empate')
+                break
+
+    if vidaOponente == 0:
+        print('Guerra vencida')
+        break
+    elif vidaPropria == 0:
+        print('Guerra perdida')
+        break
 
     rodada += 1
     input()

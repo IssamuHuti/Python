@@ -11,10 +11,20 @@ criar um jogo estilo rpg(utilizar POO)
 
 import os
 import random
+import time
+import threading
+import msvcrt
 
 def limpar():
     os.system('cls')
 
+def interromper():
+    global pular
+    while True:
+        botao_interromper = input()
+        if botao_interromper.lower() == 'x':
+            pular = True
+            break
 class Atributos:
     def __init__(self, profissao, tempo):
         self.profissao = profissao
@@ -44,16 +54,32 @@ class Atributos:
         
         if self.profissao == 'arqueiro':
             HP = self.HP * 1.2 * self.tempo
-            ATQ = self.ATQ * 2.5 * self.tempo
+            ATQ = self.ATQ * 2.3 * self.tempo
             DEF = self.DEF * 1.1 * self.tempo
             VEL = self.VEL * 2.0 * self.tempo
             EVA = self.EVA * 1.5 * self.tempo
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
             
+
+class Combate(Atributos):
+    def ataque(self):
+        danoRecebido = oponente['ATQ'] - campeao['DEF']
+        danoOferecido = campeao['ATQ'] - oponente['DEF']
+
+        campeao['HP'] -= danoRecebido
+        oponente['HP'] -= danoOferecido
+
+        print(campeao['HP'])
+        print(oponente['HP'])
+        input()
+
+
 rodada = 1
 profissao = 'Escolha a profissão:\n1 - Guerreiro\n2 - Tanque\n3 - Arqueiro\n=> '
+profissoes = ['Guerreiro', 'Tanque', 'Arqueiro']
 vidaPropria = 5
 vidaOponente = 5
+
 
 while True:
     pular = False
@@ -119,16 +145,25 @@ while True:
             print(f'{atributo}: {valor}')
         print()
 
-    while (campeao['HP'] > 0) and (oponente['HP'] > 0):
-        print(f'Vida campeao: {vidaPropria}')
-        print(campeao)
-        print()
-        print(f'Vida oponente: {vidaOponente}')
-        print(oponente)
-        validacaoPular = input()
+    teste = Combate(profissao, rodada)
+    teste.ataque()
 
-        if validacaoPular == 'x':
-            pular = True
+    while (campeao['HP'] > 0) and (oponente['HP'] > 0):
+
+        thread_input = threading.Thread(target=interromper)
+        thread_input.daemon = True
+        thread_input.start()
+
+        print(f'Campeoes com vida: {vidaPropria}')
+        print(f'Campeao Time: {profissoes[atributosRodada-1]} - HP: {round(campeao['HP'], 0)}')
+        print()
+        print(f'Oponentes com vida: {vidaOponente}')
+        print(f'Campeao inimigo: {profissoes[oponenteEscolha-1]} - HP: {round(oponente['HP'], 0)}')
+        print()
+        # validacaoPular = input()
+
+        # if validacaoPular == 'x':
+        #     pular = True
 
         danoRecebido = oponente['ATQ'] - campeao['DEF']
         danoOferecido = campeao['ATQ'] - oponente['DEF']
@@ -152,7 +187,7 @@ while True:
                 print('Partida perdida')
                 break
 
-            input()
+            time.sleep(1)
             limpar()
 
         elif pular == True:

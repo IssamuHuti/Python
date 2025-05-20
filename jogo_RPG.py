@@ -41,7 +41,7 @@ class Atributos:
             ATQ = self.ATQ * 1.5 * self.tempo
             DEF = self.DEF * 1.5 * self.tempo
             VEL = self.VEL * 1.5 * self.tempo
-            EVA = self.EVA * 1.3 * self.tempo
+            EVA = 30
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
         
         if self.profissao == 'tanque':
@@ -49,7 +49,7 @@ class Atributos:
             ATQ = self.ATQ * 1.2 * self.tempo
             DEF = self.DEF * 2.0 * self.tempo
             VEL = self.VEL * 1.2 * self.tempo
-            EVA = self.EVA * 1.2 * self.tempo
+            EVA = 10
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
         
         if self.profissao == 'arqueiro':
@@ -57,21 +57,28 @@ class Atributos:
             ATQ = self.ATQ * 2.3 * self.tempo
             DEF = self.DEF * 1.1 * self.tempo
             VEL = self.VEL * 2.0 * self.tempo
-            EVA = self.EVA * 1.5 * self.tempo
+            EVA = 50
             return {'HP' :HP, 'ATQ':ATQ, 'DEF':DEF, 'VEL':VEL, 'EVA':EVA}
             
 
 class Combate(Atributos):
-    def ataque(self):
-        danoRecebido = oponente['ATQ'] - campeao['DEF']
-        danoOferecido = campeao['ATQ'] - oponente['DEF']
+    def ataqueProprio(self):
+        if random.random() > (oponente['EVA'] / 100):
+            danoOferecido = campeao['ATQ'] - oponente['DEF']
+            oponente['HP'] -= danoOferecido
+        else:
+            danoOferecido = 0
+            print('Miss')
+        return danoOferecido
 
-        campeao['HP'] -= danoRecebido
-        oponente['HP'] -= danoOferecido
-
-        print(campeao['HP'])
-        print(oponente['HP'])
-        input()
+    def ataqueOponente(self):
+        if random.random() > (campeao['EVA'] / 100):
+            danoRecebido = oponente['ATQ'] - campeao['DEF']
+            campeao['HP'] -= danoRecebido
+        else:
+            danoRecebido = 0
+            print('Miss')
+        return danoRecebido
 
 
 rodada = 1
@@ -145,9 +152,6 @@ while True:
             print(f'{atributo}: {valor}')
         print()
 
-    teste = Combate(profissao, rodada)
-    teste.ataque()
-
     while (campeao['HP'] > 0) and (oponente['HP'] > 0):
 
         thread_input = threading.Thread(target=interromper)
@@ -160,20 +164,13 @@ while True:
         print(f'Oponentes com vida: {vidaOponente}')
         print(f'Campeao inimigo: {profissoes[oponenteEscolha-1]} - HP: {round(oponente['HP'], 0)}')
         print()
-        # validacaoPular = input()
 
-        # if validacaoPular == 'x':
-        #     pular = True
-
-        danoRecebido = oponente['ATQ'] - campeao['DEF']
-        danoOferecido = campeao['ATQ'] - oponente['DEF']
-
-        campeao['HP'] -= danoRecebido
-        oponente['HP'] -= danoOferecido
+        vidaTirada = Combate.ataqueProprio(profissao)
+        vidaTomada = Combate.ataqueOponente(profissao)
 
         if pular == False:
-            print(f'Vida campeao: {campeao['HP']} - Dano sofrido: {danoRecebido}')
-            print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {danoOferecido}')
+            print(f'Vida campeao: {campeao['HP']} - Dano sofrido: {vidaTomada}')
+            print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {vidaTirada}')
 
             if (campeao['HP'] <= 0) and (oponente['HP'] <= 0):
                 print('Empate')

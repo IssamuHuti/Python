@@ -141,7 +141,7 @@ while True:
 
     elif atributosRodada == 4:
         campeao = p4.atributoDistribuicao()
-        print('ARQUEIRO')
+        print('ASSASSINO')
         for atributo, valor in p4.atributoDistribuicao().items():
             print(f'{atributo}: {valor}')
         print()
@@ -187,16 +187,20 @@ while True:
     velocidadeCampeao = campeao['VEL']
     velocidadeOponente = oponente['VEL']
 
-    # problemas para estababeler a velocidade de ataque, possibilitando o mais rápido a poder atacar mais de uma a vez a mais que o oponente
-    cicloProprio = 0
-    cicloOponente = 0
+    cicloCampeao = velocidadeCampeao
+    cicloOponente = velocidadeOponente
     while (campeao['HP'] > 0) and (oponente['HP'] > 0):
-        if velocidadeCampeao > velocidadeOponente:
-            velocidadeCampeao = 100 - velocidadeCampeao
+        cicloCampeao = cicloCampeao + velocidadeCampeao
+        if cicloCampeao >= 100:
+            cicloCampeao -= 100
+        cicloOponente = cicloOponente + velocidadeOponente
+        if cicloOponente >= 100:
+            cicloOponente -= 100
+
+        if cicloCampeao > cicloOponente:
             vidaTirada = Combate.ataqueProprio(profissao)
             vidaTomada = 0
-        elif velocidadeCampeao < velocidadeOponente:
-            velocidadeOponente = 100 - velocidadeOponente
+        elif cicloCampeao < cicloOponente:
             vidaTirada = 0
             vidaTomada = Combate.ataqueOponente(profissao)
         else:

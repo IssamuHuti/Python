@@ -72,21 +72,56 @@ class Atributos:
             
 
 class Combate(Atributos):
-    def ataqueProprio(self):
-        if random.random() > (oponente['EVA'] / 100):
-            danoOferecido = campeao['ATQ'] - oponente['DEF']
-            oponente['HP'] -= danoOferecido
+    global profissoes, movimentoCampeao, movimentoOponente
+
+    def ataqueCampeao(self):
+        if random.random() > (movimentoOponente['EVA'] / 100):
+            danoOferecido = movimentoCampeao['ATQ'] - movimentoOponente['DEF']
+            movimentoOponente['HP'] -= danoOferecido
         else:
             danoOferecido = 'Miss'
         return danoOferecido
 
     def ataqueOponente(self):
-        if random.random() > (campeao['EVA'] / 100):
-            danoRecebido = oponente['ATQ'] - campeao['DEF']
-            campeao['HP'] -= danoRecebido
+        if random.random() > (movimentoCampeao['EVA'] / 100):
+            danoRecebido = movimentoOponente['ATQ'] - movimentoCampeao['DEF']
+            movimentoCampeao['HP'] -= danoRecebido
         else:
             danoRecebido = 'Miss'
         return danoRecebido
+    
+    def atributoCampeao(self):
+        if self == 1:
+            personagem = p1.atributoDistribuicao()
+            print(profissoes[self-1])
+            for atributo, valor in p1.atributoDistribuicao().items():
+                print(f'{atributo}: {valor}')
+            print()
+            return personagem
+        
+        elif self == 2:
+            personagem = p2.atributoDistribuicao()
+            print(profissoes[self-1])
+            for atributo, valor in p2.atributoDistribuicao().items():
+                print(f'{atributo}: {valor}')
+            print()
+            return personagem
+        
+        elif self == 3:
+            personagem = p3.atributoDistribuicao()
+            print(profissoes[self-1])
+            for atributo, valor in p3.atributoDistribuicao().items():
+                print(f'{atributo}: {valor}')
+            print()
+            return personagem
+        
+        elif self == 4:
+            personagem = p4.atributoDistribuicao()
+            print(profissoes[self-1])
+            for atributo, valor in p4.atributoDistribuicao().items():
+                print(f'{atributo}: {valor}')
+            print()
+            return personagem
 
 
 rodada = 1
@@ -105,6 +140,7 @@ while True:
 
     while True:
         limpar()
+
         try:
             atributosRodada = int(input(profissao))
             if atributosRodada in [1, 2, 3, 4]:
@@ -118,62 +154,9 @@ while True:
 
     limpar()
 
-    if atributosRodada == 1:
-        campeao = p1.atributoDistribuicao()
-        print('GUERREIRO')
-        for atributo, valor in p1.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif atributosRodada == 2:
-        campeao = p2.atributoDistribuicao()
-        print('TANQUE')
-        for atributo, valor in p2.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif atributosRodada == 3:
-        campeao = p3.atributoDistribuicao()
-        print('ARQUEIRO')
-        for atributo, valor in p3.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif atributosRodada == 4:
-        campeao = p4.atributoDistribuicao()
-        print('ASSASSINO')
-        for atributo, valor in p4.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
     oponenteEscolha = random.choice([1, 2, 3, 4])
-    if oponenteEscolha == 1:
-        oponente = p1.atributoDistribuicao()
-        print('GUERREIRO')
-        for atributo, valor in p1.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif oponenteEscolha == 2:
-        oponente = p2.atributoDistribuicao()
-        print('TANQUE')
-        for atributo, valor in p2.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif oponenteEscolha == 3:
-        oponente = p3.atributoDistribuicao()
-        print('ARQUEIRO')
-        for atributo, valor in p3.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
-
-    elif oponenteEscolha == 4:
-        oponente = p4.atributoDistribuicao()
-        print('ARQUEIRO')
-        for atributo, valor in p4.atributoDistribuicao().items():
-            print(f'{atributo}: {valor}')
-        print()
+    movimentoCampeao = Combate.atributoCampeao(atributosRodada)
+    movimentoOponente = Combate.atributoCampeao(oponenteEscolha)
 
     thread_input = threading.Thread(target=interromper)
     thread_input.daemon = True
@@ -184,12 +167,12 @@ while True:
     print(f'Oponentes com vida: {vidaOponente} - Oponente {profissoes[oponenteEscolha-1]}')
     print()
 
-    velocidadeCampeao = campeao['VEL']
-    velocidadeOponente = oponente['VEL']
+    velocidadeCampeao = movimentoCampeao['VEL']
+    velocidadeOponente = movimentoOponente['VEL']
 
     cicloCampeao = velocidadeCampeao
     cicloOponente = velocidadeOponente
-    while (campeao['HP'] > 0) and (oponente['HP'] > 0):
+    while (movimentoCampeao['HP'] > 0) and (movimentoOponente['HP'] > 0):
         cicloCampeao = cicloCampeao + velocidadeCampeao
         if cicloCampeao >= 100:
             cicloCampeao -= 100
@@ -198,38 +181,38 @@ while True:
             cicloOponente -= 100
 
         if cicloCampeao > cicloOponente:
-            vidaTirada = Combate.ataqueProprio(profissao)
+            vidaTirada = Combate.ataqueCampeao(profissao)
             vidaTomada = 0
         elif cicloCampeao < cicloOponente:
             vidaTirada = 0
             vidaTomada = Combate.ataqueOponente(profissao)
         else:
-            vidaTirada = Combate.ataqueProprio(profissao)
+            vidaTirada = Combate.ataqueCampeao(profissao)
             vidaTomada = Combate.ataqueOponente(profissao)
                 
         if pular == False:
             if vidaTomada != 0:
-                if campeao['HP'] <= 0:
+                if movimentoCampeao['HP'] <= 0:
                     print(f'Vida campeao : 0 - Dano sofrido: {vidaTomada}')
                 else:
-                    print(f'Vida campeao : {campeao['HP']} - Dano sofrido: {vidaTomada}')
+                    print(f'Vida campeao : {movimentoCampeao['HP']} - Dano sofrido: {vidaTomada}')
 
             if vidaTirada != 0:
-                if oponente['HP'] <= 0:
+                if movimentoOponente['HP'] <= 0:
                     print(f'Vida oponente: 0 - Dano sofrido: {vidaTirada}')
                 else:
-                    print(f'Vida oponente: {oponente['HP']} - Dano sofrido: {vidaTirada}')
+                    print(f'Vida oponente: {movimentoOponente['HP']} - Dano sofrido: {vidaTirada}')
 
-            if (campeao['HP'] <= 0) and (oponente['HP'] <= 0):
+            if (movimentoCampeao['HP'] <= 0) and (movimentoOponente['HP'] <= 0):
                 print()
                 print('Empate')
                 break
-            elif (oponente['HP'] <= 0) and (campeao['HP'] > 0):
+            elif (movimentoOponente['HP'] <= 0) and (movimentoCampeao['HP'] > 0):
                 vidaOponente -= 1
                 print()
                 print('Partida ganha')
                 break
-            elif (campeao['HP'] <= 0) and (oponente['HP'] > 0):
+            elif (movimentoCampeao['HP'] <= 0) and (movimentoOponente['HP'] > 0):
                 vidaPropria -= 1
                 print()
                 print('Partida perdida')
@@ -238,11 +221,11 @@ while True:
             time.sleep(1)
 
         elif pular == True:
-            if (campeao['HP'] // (oponente['ATQ'] - campeao['DEF'])) > (oponente['HP'] // (campeao['ATQ'] - oponente['DEF'])):
+            if (movimentoCampeao['HP'] // (movimentoOponente['ATQ'] - movimentoCampeao['DEF'])) > (movimentoOponente['HP'] // (movimentoCampeao['ATQ'] - movimentoOponente['DEF'])):
                 vidaOponente -= 1
                 print('Partida ganha')
                 break
-            elif (campeao['HP'] // (oponente['ATQ'] - campeao['DEF'])) < (oponente['HP'] // (campeao['ATQ'] - oponente['DEF'])):
+            elif (movimentoCampeao['HP'] // (movimentoOponente['ATQ'] - movimentoCampeao['DEF'])) < (movimentoOponente['HP'] // (movimentoCampeao['ATQ'] - movimentoOponente['DEF'])):
                 vidaPropria -= 1
                 print('Partida perdida')
                 break

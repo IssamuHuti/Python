@@ -7,7 +7,7 @@ def limpar():
 
 class AtributosHeroi:
     def __init__(self):
-        self.nivel = 1
+        self.level = 1
         self.hp = 10
         self.mp = 10
         self.ataque = 10
@@ -17,35 +17,39 @@ class AtributosHeroi:
         self.vel = 10
         self.sorte = 10
     
-    def distribuicaoPontos(self, tecla):
+    def distribuicaoPontos(self):
         pontosDistribuir = 5
 
+        print('Distribua os pontos (pressione ESC para sair):')
+        print('HP (q)\nMP (w)\nATQ.F (e)\nATQ.M (r)\nDEF.F (a)\nDEF.M (s)\nVEL (d)\nSorte (f)')
+
         while pontosDistribuir > 0:
-            if tecla.name == 'q':
+            if keyboard.is_pressed('q'):
                 self.hp += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='w':
+            elif keyboard.is_pressed('w'):
                 self.mp += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='e':
+            elif keyboard.is_pressed('e'):
                 self.ataque += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='r':
-                self.ataque += 1
+            elif keyboard.is_pressed('r'):
+                self.atqMag += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='a':
+            elif keyboard.is_pressed('a'):
                 self.defesa += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='s':
+            elif keyboard.is_pressed('s'):
                 self.defMagia += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='d':
+            elif keyboard.is_pressed('d'):
                 self.vel += 1
                 pontosDistribuir -= 1
-            elif tecla.name =='f':
+            elif keyboard.is_pressed('f'):
                 self.sorte += 1
                 pontosDistribuir -= 1
-            elif tecla.name == 'esc':
+            elif keyboard.is_pressed('esc'):
+                print(f'Pontos a distribuir restantes: {pontosDistribuir}')
                 break
 
     def conversaoAtributos(self):
@@ -57,5 +61,22 @@ class AtributosHeroi:
         defM = self.defMagia * 2
         vel = self.vel * 2
         sorte = self.sorte * 1
-        return {'HP': hp, 'MP': mp, 'Atq.F': atqF, 'Atq.M': atqM, 'Def.F': defF, 'Def.M': defM, 'VEL': vel, 'Sorte': sorte}
+        return {'Level': self.level,
+            'HP': hp, 
+            'MP': mp, 
+            'Atq.F': atqF, 
+            'Atq.M': atqM, 
+            'Def.F': defF, 
+            'Def.M': defM, 
+            'VEL': vel, 
+            'Sorte': sorte
+        }
     
+heroi = AtributosHeroi()
+heroi.level += 1
+heroi.distribuicaoPontos()
+atributoHeroi = heroi.conversaoAtributos()
+
+print('\nAtributos Heroi:')
+for atributo, valor in atributoHeroi.items():
+    print(f'{atributo}: {valor}')

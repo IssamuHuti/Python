@@ -29,7 +29,8 @@ class AtributosHeroi:
         # não está diminuindo o valor dos pontosDistribuir, não está informando a quantidade de pontos a distribuir restante
         while pontosDistribuir > 0:
             print(f'Pontos a distribuir: {pontosDistribuir}')
-            print('HP    (q)\nMP    (w)\nATQ.F (e)\nATQ.M (r)\nDEF.F (a)\nDEF.M (s)\nVEL   (d)\nSorte (f)')
+            print(f'HP    | {self.hp} | (q)\nMP    | {self.mp} | (w)\nATQ.F | {self.ataque} | (e)\nATQ.M | {self.atqMag} | (r)\n'
+                  f'DEF.F | {self.defesa} | (a)\nDEF.M | {self.defMagia} | (s)\nVEL   | {self.vel} | (d)\nSorte | {self.sorte} | (f)')
 
             evento = keyboard.read_event() # cria uma variavel que recebe a informação de que anteriormente já foi feita o recebimento da insersão da tecla
             if evento.event_type == keyboard.KEY_DOWN: # cria um evento para que não permita acontecer erro de reler a tecla do loop anterior
@@ -62,6 +63,8 @@ class AtributosHeroi:
                 elif teclaAtribuicao == 'esc':
                     print(f'Pontos a distribuir restantes: {pontosDistribuir}')
                     break
+            
+            limpar()
 
     def conversaoAtributos(self):
         hp = self.hp * 10
@@ -73,13 +76,13 @@ class AtributosHeroi:
         vel = self.vel * 2
         sorte = self.sorte * 1
         return {'Level': self.level,
-            'HP': hp, 
-            'MP': mp, 
+            'HP'   : hp, 
+            'MP'   : mp, 
             'Atq.F': atqF, 
             'Atq.M': atqM, 
             'Def.F': defF, 
             'Def.M': defM, 
-            'VEL': vel, 
+            'VEL'  : vel, 
             'Sorte': sorte
         }
     
@@ -102,7 +105,6 @@ while True:
 
     print(f'LEVEL: {experienciaHeroi['Level']}')
     print(f'XP: {experienciaHeroi['XP']}')
-    print('\nAtributos Heroi:')
     for atributo, valor in atributoHeroi.items():
         print(f'{atributo}: {valor}')
 
